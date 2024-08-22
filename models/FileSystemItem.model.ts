@@ -1,21 +1,55 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-interface IFileSystemItem extends Document {
+interface IGenericFileSystemItem {
   name: string;
-  type: "file" | "directory";
-  path: string; // Full path like '/folder1/folder2/file.txt'
-  content?: string; // Only applicable for files
+  createdAt: Date;
+  updatedAt: Date;
+  path: string; // Full path like '/folder1/folder2'
+  parentId: string;
 }
 
-const FileSystemItemSchema: Schema = new Schema({
+export interface IFileSystemFile extends IGenericFileSystemItem {
+  type: "file";
+  content: string;
+}
+
+export interface IFileSystemDirectory extends IGenericFileSystemItem {
+  type: "directory";
+  children?: IFileSystemItem[];
+  childrenIds?: string[];
+}
+
+export type IFileSystemItem = (IFileSystemFile | IFileSystemDirectory) &
+  Document;
+
+const FileSystemItemSchema = new Schema({
   name: { type: String, required: true },
-  type: { type: String, enum: ["file", "directory"], required: true },
-  path: { type: String, required: true, unique: true },
-  content: { type: String, default: "" }, // Only for files
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  path: { type: String, required: true },
+  type: { type: String, required: true },
+  content: { type: String },
+  parentId: {
+    type: Schema.Types.ObjectId,
+    ref: "FileSystemItem",
+  },
+  childrenIds: [{ type: Schema.Types.ObjectId, ref: "FileSystemItem" }],
 });
 
+FileSystemItemSchema.virtual("children", {
+  ref: "FileSystemItem",
+  localField: "childrenIds",
+  foreignField: "_id",
+  justOne: false,
+});
+
+// This is important to avoid model overwrite in webpack HMR mode
 const FileSystemItem =
-  mongoose.models.FileSystemItem ||
-  mongoose.model<IFileSystemItem>("FileSystemItem", FileSystemItemSchema);
+  (mongoose.models.FileSystemItem as mongoose.Model<IFileSystemItem>) ||
+  mongoose.model<IFileSystemItem>(
+    "FileSystemItem",
+    FileSystemItemSchema,
+    "FileSystemItem"
+  );
 
 export default FileSystemItem;
