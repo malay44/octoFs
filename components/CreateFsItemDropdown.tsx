@@ -18,11 +18,15 @@ export function CreateFsItemDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon">
+        <Button
+          variant="secondary"
+          size="icon"
+          className="absolute bottom-4 right-4"
+        >
           <Plus className="fill-primary" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent sideOffset={8} side="top" align="end">
         <CreateFolderPopup currentFolderId={currentFolderId}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             New Folder
