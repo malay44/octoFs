@@ -59,7 +59,7 @@ export function CreateFolderPopup({
             <Input
               defaultValue="New Folder"
               name="name"
-              error="File/Folder already Exists File/Folder already Exists File/Folder already Exists"
+              error={!formResponse.success ? formResponse.message : undefined}
             />
           </div>
           <DialogFooter>

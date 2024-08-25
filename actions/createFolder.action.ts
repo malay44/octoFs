@@ -11,7 +11,6 @@ const MongoError = mongo.MongoError;
 
 export interface ICreateFolderActionState {
   message?: string;
-  error?: any;
   success?: boolean;
 }
 
