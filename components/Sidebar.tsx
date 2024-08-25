@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Folders } from "lucide-react";
+import { Folders, LogOutIcon } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 
 const sidebarMenu = [
@@ -19,7 +19,7 @@ const sidebarMenu = [
 const Sidebar = () => {
   return (
     <aside className="hidden h-full w-64 shrink-0 lg:block">
-      <div className="flex flex-col p-[1px] w-full h-full border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex flex-col p-[1px] w-full h-full border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95">
         <Link
           href={"/"}
           className="sticky top-0 flex items-center space-x-2 px-4 pt-5 hover:text-foreground/80 text-foreground/60"
@@ -43,6 +43,11 @@ const Sidebar = () => {
             ))}
           </nav>
         </ScrollArea>
+        <Button variant="outline" className="m-2 mt-auto" asChild>
+          <Link href={"/api/auth/signout"}>
+            <LogOutIcon className="mr-2 h-4 w-4" /> Log Out
+          </Link>
+        </Button>
       </div>
     </aside>
   );

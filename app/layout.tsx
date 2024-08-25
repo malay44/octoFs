@@ -34,19 +34,12 @@ export default function RootLayout({
               fontSans.variable
             )}
           >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <div className="flex h-screen w-full">
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <div className="flex h-screen w-full transition-colors">
                 <Sidebar />
                 <ScrollArea className="flex-1 h-full overflow-y-auto">
                   <Navbar />
-                  <main className="p-4">
-                    {children}
-                  </main>
+                  <main className="p-4">{children}</main>
                 </ScrollArea>
               </div>
             </ThemeProvider>
