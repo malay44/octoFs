@@ -6,6 +6,8 @@ import { AuthProvider } from "./AuthProvider";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import StoreProvider from "@/Redux/storeProvider";
+import Sidebar from "@/components/Sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -38,8 +40,15 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Navbar />
-              {children}
+              <div className="flex h-screen w-full">
+                <Sidebar />
+                <ScrollArea className="flex-1 h-full overflow-y-auto">
+                  <Navbar />
+                  <main className="p-4">
+                    {children}
+                  </main>
+                </ScrollArea>
+              </div>
             </ThemeProvider>
           </body>
         </StoreProvider>
