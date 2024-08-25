@@ -26,7 +26,7 @@ const FileSystemItemSchema = new Schema({
   name: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  path: { type: String, required: true },
+  path: { type: String, required: true, unique: true },
   type: { type: String, required: true },
   content: { type: String },
   parentId: {
@@ -42,6 +42,9 @@ FileSystemItemSchema.virtual("children", {
   foreignField: "_id",
   justOne: false,
 });
+
+// make name unique in the same parent folder
+FileSystemItemSchema.index({ name: 1, parentId: 1 }, { unique: true });
 
 // This is important to avoid model overwrite in webpack HMR mode
 const FileSystemItem =
