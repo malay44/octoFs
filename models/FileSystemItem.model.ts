@@ -22,6 +22,8 @@ export interface IFileSystemDirectory extends IGenericFileSystemItem {
 export type IFileSystemItem = (IFileSystemFile | IFileSystemDirectory) &
   Document;
 
+export const FileSystemItemCollectionName = "FileSystemItem";
+
 const FileSystemItemSchema = new Schema({
   name: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
@@ -31,17 +33,19 @@ const FileSystemItemSchema = new Schema({
   content: { type: String },
   parentId: {
     type: Schema.Types.ObjectId,
-    ref: "FileSystemItem",
+    ref: FileSystemItemCollectionName,
   },
-  childrenIds: [{ type: Schema.Types.ObjectId, ref: "FileSystemItem" }],
+  childrenIds: [
+    { type: Schema.Types.ObjectId, ref: FileSystemItemCollectionName },
+  ],
 });
 
-FileSystemItemSchema.virtual("children", {
-  ref: "FileSystemItem",
-  localField: "childrenIds",
-  foreignField: "_id",
-  justOne: false,
-});
+// FileSystemItemSchema.virtual("children", {
+//   ref: FileSystemItemCollectionName,
+//   localField: "childrenIds",
+//   foreignField: "_id",
+//   justOne: true,
+// });
 
 // make name unique in the same parent folder
 FileSystemItemSchema.index({ name: 1, parentId: 1 }, { unique: true });
@@ -50,9 +54,9 @@ FileSystemItemSchema.index({ name: 1, parentId: 1 }, { unique: true });
 const FileSystemItem =
   (mongoose.models.FileSystemItem as mongoose.Model<IFileSystemItem>) ||
   mongoose.model<IFileSystemItem>(
-    "FileSystemItem",
+    FileSystemItemCollectionName,
     FileSystemItemSchema,
-    "FileSystemItem"
+    FileSystemItemCollectionName
   );
 
 export default FileSystemItem;
