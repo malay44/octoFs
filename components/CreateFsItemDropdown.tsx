@@ -21,7 +21,7 @@ export function CreateFsItemDropdown({
         <Button
           variant="secondary"
           size="icon"
-          className="absolute bottom-4 right-4"
+          className="absolute bottom-4 right-4 shadow scale-110"
         >
           <Plus className="fill-primary" />
         </Button>
