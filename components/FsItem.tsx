@@ -1,12 +1,5 @@
 import { IFileSystemItem } from "@/models/FileSystemItem.model";
-import {
-  CircleEllipsisIcon,
-  Copy,
-  File,
-  FolderClosed,
-  Pen,
-  Trash,
-} from "lucide-react";
+import { Copy, File, FolderClosed, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import {
   ContextMenu,
